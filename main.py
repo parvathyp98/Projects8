@@ -8,8 +8,6 @@ import editdistance
 from DataLoader import DataLoader, Batch
 from Model import Model, DecoderType
 from SamplePreprocessor import preprocess
-
-
 class FilePaths:
 	"filenames and paths to data"
 	fnCharList = '../model/charList.txt'
@@ -17,7 +15,6 @@ class FilePaths:
 	fnTrain = '../data/'
 	fnInfer = '../data/test.png'
 	fnCorpus = '../data/corpus.txt'
-
 
 def train(model, loader):
 	epoch = 0 
@@ -65,7 +62,6 @@ def validate(model, loader):
 		print('Batch:', iterInfo[0],'/', iterInfo[1])
 		batch = loader.getNext()
 		(recognized, _) = model.inferBatch(batch)
-		
 		print('Ground truth -> Recognized')	
 		for i in range(len(recognized)):
 			numWordOK += 1 if batch.gtTexts[i] == recognized[i] else 0
@@ -81,7 +77,6 @@ def validate(model, loader):
 	print('Character error rate: %f%%. Word accuracy: %f%%.' % (charErrorRate*100.0, wordAccuracy*100.0))
 	return charErrorRate
 
-
 def infer(model, fnImg):
 	"recognize text in image provided by file path"
 	img = preprocess(cv2.imread(fnImg, cv2.IMREAD_GRAYSCALE), Model.imgSize)
@@ -89,7 +84,6 @@ def infer(model, fnImg):
 	(recognized, probability) = model.inferBatch(batch, True)
 	print('Recognized:', '"' + recognized[0] + '"')
 	print('Probability:', probability[0])
-
 
 def main():
 	"main function"
