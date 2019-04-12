@@ -20,11 +20,10 @@ class FilePaths:
 
 
 def train(model, loader):
-	epoch = 0 # number of training epochs since start
-	bestCharErrorRate = float('inf') # best valdiation character error rate
-	noImprovementSince = 0 # number of epochs no improvement of character error rate occured
-	earlyStopping = 5 # stop training after this number of epochs without improvement
-	while True:
+	epoch = 0 
+	bestCharErrorRate = float('inf') 
+	noImprovementSince = 0 
+	earlyStopping = 5 
 		epoch += 1
 		print('Epoch:', epoch)
 
@@ -39,8 +38,6 @@ def train(model, loader):
 
 		# validate
 		charErrorRate = validate(model, loader)
-		
-		# if best validation accuracy so far, save model parameters
 		if charErrorRate < bestCharErrorRate:
 			print('Character error rate improved, save model')
 			bestCharErrorRate = charErrorRate
@@ -50,8 +47,6 @@ def train(model, loader):
 		else:
 			print('Character error rate not improved')
 			noImprovementSince += 1
-
-		# stop training if no more improvement in the last x epochs
 		if noImprovementSince >= earlyStopping:
 			print('No more improvement since %d epochs. Training stopped.' % earlyStopping)
 			break
