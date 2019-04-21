@@ -47,7 +47,15 @@ def train(model, loader):
 		if noImprovementSince >= earlyStopping:
 			print('No more improvement since %d epochs. Training stopped.' % earlyStopping)
 			break
+def infer(model, fnImg):
+	"recognize text in image provided by file path"
+	img = preprocess(cv2.imread(fnImg, cv2.IMREAD_GRAYSCALE), Model.imgSize)
+	batch = Batch(None, [img])
+	(recognized, probability) = model.inferBatch(batch, True)
+	print('Recognized:', '"' + recognized[0] + '"')
+	print('Probability:', probability[0])
 
+			
 
 def validate(model, loader):
 	"validate NN"
